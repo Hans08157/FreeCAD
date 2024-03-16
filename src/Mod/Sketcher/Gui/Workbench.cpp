@@ -91,12 +91,16 @@ Gui::MenuItem* Workbench::setupMenuBar() const
     virtualspace->setCommand("Sketcher virtual space");
     addSketcherWorkbenchVirtualSpace(*virtualspace);
 
+	Gui::MenuItem* exportLexocad = new Gui::MenuItem();
+    exportLexocad->setCommand("Export Sketch to Lexocad");
+	addSketcherExportLexocad(*exportLexocad);
+
     Gui::MenuItem* sketch = new Gui::MenuItem;
     root->insertItem(item, sketch);
     sketch->setCommand("S&ketch");
     addSketcherWorkbenchSketchActions(*sketch);
     addSketcherWorkbenchSketchEditModeActions(*sketch);
-    *sketch << geom << cons << consaccel << bsplines << virtualspace;
+    *sketch << geom << cons << consaccel << bsplines << virtualspace << exportLexocad;
 
     return root;
 }
@@ -552,6 +556,21 @@ inline void SketcherAddWorkbenchEditTools<Gui::ToolBarItem>(Gui::ToolBarItem& ed
               << "Sketcher_RenderingOrder";
 }
 
+template <typename T>
+inline void SketcherAddExportLexocad(T& exportLexocad);
+
+template <>
+inline void SketcherAddExportLexocad<Gui::MenuItem>(Gui::MenuItem& exportLexocad)
+{
+    exportLexocad << "Sketcher_ExportLexocad";
+}
+
+template <>
+inline void SketcherAddExportLexocad<Gui::ToolBarItem>(Gui::ToolBarItem& exportLexocad)
+{
+    exportLexocad << "Sketcher_ExportLexocad";
+}
+
 void addSketcherWorkbenchSketchActions(Gui::MenuItem& sketch)
 {
     SketcherAddWorkbenchSketchActions(sketch);
@@ -590,6 +609,11 @@ void addSketcherWorkbenchVirtualSpace(Gui::MenuItem& virtualspace)
 void addSketcherWorkbenchSketchActions(Gui::ToolBarItem& sketch)
 {
     SketcherAddWorkbenchSketchActions(sketch);
+}
+
+void addSketcherExportLexocad(Gui::MenuItem& exportLexocad)
+{
+	SketcherAddExportLexocad(exportLexocad);
 }
 
 void addSketcherWorkbenchSketchEditModeActions(Gui::ToolBarItem& sketch)

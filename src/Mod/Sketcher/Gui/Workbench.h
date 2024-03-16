@@ -61,6 +61,7 @@ SketcherGuiExport void addSketcherWorkbenchConstraints(Gui::MenuItem& cons);
 SketcherGuiExport void addSketcherWorkbenchTools(Gui::MenuItem& consaccel);
 SketcherGuiExport void addSketcherWorkbenchBSplines(Gui::MenuItem& bspline);
 SketcherGuiExport void addSketcherWorkbenchVirtualSpace(Gui::MenuItem& virtualspace);
+SketcherGuiExport void addSketcherExportLexocad(Gui::MenuItem& exportLexocad);
 
 SketcherGuiExport void addSketcherWorkbenchSketchActions(Gui::ToolBarItem& sketch);
 SketcherGuiExport void addSketcherWorkbenchSketchEditModeActions(Gui::ToolBarItem& sketch);

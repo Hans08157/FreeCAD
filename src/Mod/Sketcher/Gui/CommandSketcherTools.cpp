@@ -2252,6 +2252,56 @@ bool CmdSketcherRemoveAxesAlignment::isActive()
     return isCommandActive(getActiveGuiDocument(), true);
 }
 
+
+DEF_STD_CMD_A(CmdExportSketchToLexocad)
+
+CmdExportSketchToLexocad::CmdExportSketchToLexocad()
+	:Command("Sketcher_ExportLexocad")
+{
+    int lStop = 0;
+	sAppModule = "Sketcher";
+	sGroup = QT_TR_NOOP("Sketcher");
+	sMenuText = QT_TR_NOOP("Export Lexocad");
+	sToolTipText = QT_TR_NOOP("Export Sketch to Lexocad");
+	sWhatsThis = "Sketcher_ExportLexocad";
+	sStatusTip = sToolTipText;
+	sPixmap = "";
+	sAccel = "";
+	eType = NoTransaction;
+}
+
+void CmdExportSketchToLexocad::activated(int iMsg)
+{
+	Q_UNUSED(iMsg);
+
+	// Save the views to an XML file
+	QString fn = QFileDialog::getSaveFileName(Gui::getMainWindow(), QObject::tr("Save Lexocad generated code"),
+		QString(), QString::fromLatin1("%1 (*.cpp)").arg(QObject::tr("Lexocad Code")));
+	if (fn.isEmpty())
+		return;
+	QFile file(fn);
+    if (file.open(QFile::WriteOnly))
+    {
+        getSelection().clearSelection();
+        Gui::Document* doc = getActiveGuiDocument();
+        ReleaseHandler(doc);
+        SketcherGui::ViewProviderSketch* vp = static_cast<SketcherGui::ViewProviderSketch*>(doc->getInEdit());
+        Sketcher::SketchObject* Obj = vp->getSketchObject();
+
+        QTextStream str(&file);
+    }
+    else
+    {
+        QMessageBox::critical(Gui::getMainWindow(), QObject::tr("Open File Error"), QObject::tr("Cannot open file."));
+    }
+}
+
+bool CmdExportSketchToLexocad::isActive(void)
+{
+	// return isCommandActive(getActiveGuiDocument(), true);
+    return true;
+}
+
 void CreateSketcherCommandsConstraintAccel()
 {
     Gui::CommandManager& rcCmdMgr = Gui::Application::Instance->commandManager();
@@ -2276,4 +2326,5 @@ void CreateSketcherCommandsConstraintAccel()
     rcCmdMgr.addCommand(new CmdSketcherDeleteAllGeometry());
     rcCmdMgr.addCommand(new CmdSketcherDeleteAllConstraints());
     rcCmdMgr.addCommand(new CmdSketcherRemoveAxesAlignment());
+    rcCmdMgr.addCommand(new CmdExportSketchToLexocad());
 }
