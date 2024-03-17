@@ -2265,7 +2265,7 @@ CmdExportSketchToLexocad::CmdExportSketchToLexocad()
 	sToolTipText = QT_TR_NOOP("Export Sketch to Lexocad");
 	sWhatsThis = "Sketcher_ExportLexocad";
 	sStatusTip = sToolTipText;
-	sPixmap = "";
+	sPixmap = ""; 
 	sAccel = "";
 	eType = NoTransaction;
 }
